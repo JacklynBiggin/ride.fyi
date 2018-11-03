@@ -8,20 +8,20 @@ $( "#searchButton" ).click(function( event ) {
     
 
 
-  var gettingStart = $.get("/api/validate.php/?query="+start);
+  var gettingStart = $.get("./api/validate.php/?query="+start);
   
   gettingStart.done(function(data){
     start = data.coords;
   });
 
-  var gettingEnd = $.get("/api/validate.php/?query="+end);
+  var gettingEnd = $.get("./api/validate.php/?query="+end);
   
   gettingEnd.done(function(data){
     end = data.coords;
   });
 
     // Send the data using post
-  var posting = $.post ("/api/index.php", {"start": start, "end": end} );
+  var posting = $.post ("./api/index.php", {"start": start, "end": end} );
  
   // Put the results in a div
   posting.done(function( data ) {
