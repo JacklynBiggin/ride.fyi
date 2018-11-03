@@ -12,6 +12,7 @@ if(strpos($transitResult, 'ApplicationError')) {
 
 $transitResult = json_decode($transitResult, true)['Res']['Connections']['Connection'];
 foreach ($transitResult as $pathOption) {
+  // require 'hybrid.php';
   $startTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Dep']['time']);
   $endTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Arr']['time']);
   $tripTime = abs($startTime->getTimestamp()-$endTime->getTimestamp());
@@ -30,6 +31,7 @@ foreach ($transitResult as $pathOption) {
   if(empty($pathOption['Tariff']['Fares']['0']['Fare']['0']['price'])){
     $resultsAppend['prices_unavailable'] = 'true';
   }
+  // require 'hybrid.php';
   array_push($results, $resultsAppend);
 }
 

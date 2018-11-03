@@ -24,12 +24,20 @@ require_once "./config.php";
 
 require_once './apis/uber.php';
 require_once './apis/lyft.php';
-require_once './apis/bike.php';
-require_once './apis/walk.php';
-require_once './apis/car.php';
 require_once './apis/bird.php';
 require_once './apis/mobike.php';
-require_once './apis/transit.php';
+
+if (empty($_GET['transit'])) {
+  require_once './apis/bike.php';
+  require_once './apis/walk.php';
+  require_once './apis/car.php';
+}
+
+if (empty($_GET['transit'])) {
+  require_once './apis/transit.php';
+}
+
+array_push($results, getBirds($startPoint, $endPoint));
 
 // Now lets sort there results - isn't that wonderful?
 array_multisort(array_column($results, 'price'), SORT_ASC,
