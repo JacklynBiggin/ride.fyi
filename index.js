@@ -15,9 +15,9 @@ $( "#searchButton" ).click(function( event ) {
   }).done(function(data){
     startCoords = data.coords;
     $.getJSON( "./api/validate.php/?query="+end, ( data ) => {
-      endCoords = data.coords;
-    }).done(function(data){
       
+    }).done(function(data){
+      endCoords = data.coords;
     });
     $.getJSON( "./api/index.php?start="+startCoords+"&end="+endCoords, function( data ) {
       // Put the results in a div
