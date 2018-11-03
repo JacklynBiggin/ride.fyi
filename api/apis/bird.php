@@ -1,5 +1,5 @@
 <?php
-function getBirds($startPoint, $endPoint) {
+function getBird($startPoint, $endPoint) {
   global $config;
   $birdStartPoint = explode(',', $startPoint);
   $birdEndPoint = explode(',', $endPoint);
@@ -23,9 +23,11 @@ function getBirds($startPoint, $endPoint) {
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch,CURLOPT_HTTPHEADER, array('Authorization: Bird '.$birdResultsAccessID, 'Device-id: '.$config['BIRD_PRICING']['birdGUID'], 'App-Version: 3.0.5', 'Location: {"latitude":'.$birdStartPoint[0].',"longitude":'.$birdStartPoint[1].',"altitude":500,"accuracy":100,"speed":-1,"heading":-1}'));
   $birdResults = curl_exec($ch);
+  $birdResultsRaw = $birdResults;
   curl_close($ch);
   $birdResults = json_decode($birdResults, true);
-  if (sizeof($birdResults['birds']) == 0) {
+
+  if (strpos($birdResultsRaw, "Location is not a valid Location") || sizeof($birdResults['birds']) == 0) {
     // echo "No birds avaliable";
     return;
   }

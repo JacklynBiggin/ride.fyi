@@ -26,24 +26,26 @@ require_once './apis/uber.php';
 require_once './apis/lyft.php';
 require_once './apis/bird.php';
 require_once './apis/mobike.php';
+require_once './apis/bike.php';
+require_once './apis/walk.php';
+require_once './apis/car.php';
+require_once './apis/transit.php';
+require_once './apis/hybrid.php';
 
-if (empty($_GET['transit'])) {
-  require_once './apis/bike.php';
-  require_once './apis/walk.php';
-  require_once './apis/car.php';
-}
+array_push($results, getBird($startPoint, $endPoint));
+array_push($results, getWalk($startPoint, $endPoint));
+array_push($results, getMobike($startPoint, $endPoint));
+array_push($results, getBike($startPoint, $endPoint));
+array_push($results, getCar($startPoint, $endPoint));
+$results = array_merge($results, getAllLyfts($startPoint, $endPoint));
+$results = array_merge($results, getAllUbers($startPoint, $endPoint));
+$results = array_merge($results, getAllTransits($startPoint, $endPoint, 0, null));
 
-if (empty($_GET['transit'])) {
-  require_once './apis/transit.php';
-}
-
-array_push($results, getBirds($startPoint, $endPoint));
-
+$results = array_filter($results); //Removes null results
 // Now lets sort there results - isn't that wonderful?
 array_multisort(array_column($results, 'price'), SORT_ASC,
                 array_column($results, 'time'), SORT_ASC,
 $results);
-
 header('Content-Type: application/json');
 echo json_encode($results);
 function coordinatesAreValid ($coordinate) {
@@ -54,16 +56,3 @@ function coordinatesAreValid ($coordinate) {
   // https://stackoverflow.com/questions/15965166/what-is-the-maximum-length-of-latitude-and-longitude
 
 }
-
-
-//type/company, time,price ?route?
-// require_once '/apis/lyft.php';
-
-/*
-  {
-    "type": "Uber",
-    "price": "5",
-    "time": "107",
-    "route": "???"
-  }
-*/
