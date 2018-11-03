@@ -21,7 +21,7 @@ $( "#searchButton" ).click(function( event ) {
   });
 
     // Send the data using post
-  var posting = $.post ("./api/index.php", {"start": start, "end": end} );
+  var posting = $.get("./api/index.php?start="+start+"&end="+end);
  
   // Put the results in a div
   posting.done(function( data ) {
