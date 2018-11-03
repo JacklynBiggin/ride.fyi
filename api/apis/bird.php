@@ -24,7 +24,7 @@ curl_close($ch);
 $birdResults = json_decode($birdResults, true);
 if (sizeof($birdResults['birds']) == 0) {
   // echo "No birds avaliable";
-  exit;
+  return;
 }
 $closestBirdLocation = $birdResults['birds']['0']['location'];
 

@@ -1,7 +1,4 @@
 <?php
-//Can remove later
-$startPoint = htmlspecialchars($_GET['start']);
-$endPoint = htmlspecialchars($_GET['end']);
 
 $ch = curl_init();
 $lyftStartPoint = explode(',', $startPoint);
@@ -10,6 +7,11 @@ curl_setopt($ch, CURLOPT_URL, "https://api.lyft.com/v1/cost?start_lat=".$lyftSta
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $lyftReturn = curl_exec($ch);
 curl_close($ch);
+
+if(strpos($lyftReturn, 'error_description')) {
+  return;
+}
+
 $lyftReturn = json_decode($lyftReturn, true);
 $lyftReturn = $lyftReturn['cost_estimates'];
 foreach ($lyftReturn as $currentCarType) {

@@ -6,6 +6,9 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $bikeApiReturn = curl_exec($ch);
 curl_close($ch);
 
+if(strpos($bikeApiReturn, 'ApplicationError')) {
+  return;
+}
 
 $bikeApiReturn = json_decode($bikeApiReturn, true);
 

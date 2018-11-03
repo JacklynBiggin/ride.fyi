@@ -5,6 +5,10 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $walkApiReturn = curl_exec($ch);
 curl_close($ch);
 
+// This is pretty horrible error handling, but don't display if not available
+if(strpos($walkApiReturn, 'ApplicationError')) {
+  return;
+}
 
 $walkApiReturn = json_decode($walkApiReturn, true);
 

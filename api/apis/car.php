@@ -7,6 +7,10 @@ curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $carApiReturn = curl_exec($ch);
 curl_close($ch);
 
+if(strpos($carApiReturn, 'ApplicationError')) {
+  return;
+}
+
 $carApiReturn = json_decode($carApiReturn, true);
 
 // Get petrol pricing for local sqlite_create_aggregate
