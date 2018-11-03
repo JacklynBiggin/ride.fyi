@@ -12,9 +12,11 @@ curl_close($ch);
 $uberApiReturn = json_decode($uberApiReturn, true);
 
 foreach($uberApiReturn['prices'] as $transport) {
+
+  // Standardise formats
   $transportName = 'Uber ' . $transport['localized_display_name'];
   $transportPrice = $transport['high_estimate'] + $transport['low_estimate'] / 2;
-  
+
   if($transportPrice !== 0) { // If a service isn't available, Uber says the price is 0
     array_push($results, array('name' => $transportName, 'distance' => $transport['distance'], 'currency' => $transport['currency_code'], 'price' => $transportPrice));
   }

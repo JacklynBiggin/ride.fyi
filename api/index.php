@@ -19,10 +19,9 @@ $results = [];
 // For each result, include name, price, currency, time (seconds), distance (miles)
 
 require_once './apis/uber.php';
-echo "<br>";
 require_once './apis/lyft.php';
 
-echo "<br> RESULTS START HERE:<br />";
+header('Content-Type: application/json');
 echo json_encode($results);
 function coordinatesAreValid ($coordinate) {
   $coordinateArray = explode(',', $coordinate);

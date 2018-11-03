@@ -13,11 +13,11 @@ curl_close($ch);
 $lyftReturn = json_decode($lyftReturn, true);
 $lyftReturn = $lyftReturn['cost_estimates'];
 foreach ($lyftReturn as $currentCarType) {
-  print_r($currentCarType);
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
-  echo "<br>";
+  // print_r($currentCarType);
+  if (strpos($currentCarType['display_name'], 'Lyft') === false) {
+    $currentCarType['display_name'] = 'Lyft ' . $currentCarType['display_name'];
+  }
+  $avgCostDollars = (($currentCarType['estimated_cost_cents_max']+$currentCarType['estimated_cost_cents_min'])/2)/100;
+  $results[] = ["name"=>$currentCarType['display_name'],"price"=>$avgCostDollars,"currency"=>$currentCarType['currency'],"time"=>$currentCarType['estimated_duration_seconds'],"distance"=>$currentCarType['estimated_distance_miles']];
 }
-$results[] = ["name"=>"Lyft","price"=>"test","currency"=>"test","time"=>"test"];
 // print_r($lyftReturn);
