@@ -2,7 +2,7 @@
 
 // Get routing for car
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=jPeL8FxtgBOBIB9ISZPZ&app_code=mXQv9GX6ULnbMkeJYR2rVQ&waypoint0=geo!" . $startPoint . "&waypoint1=" . $endPoint . "&mode=fastest;car");
+curl_setopt($ch, CURLOPT_URL, "https://route.api.here.com/routing/7.2/calculateroute.json?app_id=" . $config['HERE_APP_ID'] . "&app_code=" . $config['HERE_APP_CODE'] . "&waypoint0=geo!" . $startPoint . "&waypoint1=" . $endPoint . "&mode=fastest;car");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 $carApiReturn = curl_exec($ch);
 curl_close($ch);

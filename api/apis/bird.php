@@ -45,7 +45,7 @@ $birdRideResult = json_decode(curl_exec($ch), true);
 curl_close($ch);
 $birdRideDistance = 0.000621371 * $birdRideResult['response']['route'][0]['summary']['distance'];
 $birdRideTime = ($birdRideDistance/$config['BIRD_PRICING']['birdSpeed'])*360;
-$birdPrice = (($config['BIRD_PRICING']['birdFlatFare'] + $birdRideTime/60)*$config['BIRD_PRICING']['birdPerMinuteCost']);
+$birdPrice = ($config['BIRD_PRICING']['birdFlatFare'] + ($birdRideTime/60)*$config['BIRD_PRICING']['birdPerMinuteCost']);
 
 //Final results push
 array_push($results, array('name' => 'Bird', 'distance' => round(($birdRideDistance + $birdWalkDistance), 2), 'currency' => 'USD', 'price' => round($birdPrice, 2), 'time' => round(($birdWalkTime + $birdRideTime), 2)));
