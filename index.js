@@ -1,5 +1,5 @@
-startCoords = "";
-endCoords = "";
+let startCoords = "";
+let endCoords = "";
 
 $( "#searchButton" ).click(function( event ) {
  
@@ -10,11 +10,11 @@ $( "#searchButton" ).click(function( event ) {
     var end = encodeURIComponent($("#end").val());
 
   
-  $.getJSON( "./api/validate.php/?query="+start, function( data ) {
+  $.getJSON( "./api/validate.php/?query="+start, ( data ) => {
     startCoords = data.coords;
   });
 
-  $.getJSON( "./api/validate.php/?query="+end, function( data ) {
+  $.getJSON( "./api/validate.php/?query="+end, ( data ) => {
     endCoords = data.coords;
   });
 
