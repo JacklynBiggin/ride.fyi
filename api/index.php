@@ -21,6 +21,8 @@ $results = [];
 require_once './apis/uber.php';
 require_once './apis/lyft.php';
 require_once './apis/bike.php';
+require_once './apis/walk.php';
+// require_once './apis/bird.php';
 
 header('Content-Type: application/json');
 echo json_encode($results);
