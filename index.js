@@ -26,7 +26,7 @@ $( "#searchButton" ).click(function( event ) {
           console.log(data);
           for (var key in data) {
               content += "<tr>"
-              if (json.hasOwnProperty(key)) {
+              if (data.hasOwnProperty(key)) {
                  let name = data[key].name;
                  let currency = data[key].currency;
                  let price = data[key].price;
