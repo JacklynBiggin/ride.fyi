@@ -5,26 +5,22 @@ $( "#searchButton" ).click(function( event ) {
   // Get some values from elements on the page:
     var start = encodeURIComponent($("#start").val());
     var end = encodeURIComponent($("#end").val());
-    
 
-
-  var gettingStart = $.get("./api/validate.php/?query="+start);
   
-  gettingStart.done(function(data){
+  $.getJSON( "ajax/test.json","./api/validate.php/?query="+start, function( data ) {
     start = data.coords;
   });
 
-  var gettingEnd = $.get("./api/validate.php/?query="+end);
-  
-  gettingEnd.done(function(data){
+  $.getJSON( "ajax/test.json","./api/validate.php/?query="+end, function( data ) {
     end = data.coords;
   });
 
     // Send the data using post
-  var getting = $.get("./api/index.php?start="+start+"&end="+end);
+
  
+  $.getJSON( "ajax/test.json","./api/index.php?start="+start+"&end="+end, function( data ) {
   // Put the results in a div
-  getting.done(function( data ) {
+  
     let content = ""
     alert("test");
     console.log(data);
