@@ -7,18 +7,18 @@ $( "#searchButton" ).click(function( event ) {
     var end = encodeURIComponent($("#end").val());
 
   
-  $.getJSON( "ajax/test.json","./api/validate.php/?query="+start, function( data ) {
+  $.getJSON( "./api/validate.php/?query="+start, function( data ) {
     start = data.coords;
   });
 
-  $.getJSON( "ajax/test.json","./api/validate.php/?query="+end, function( data ) {
+  $.getJSON( "./api/validate.php/?query="+end, function( data ) {
     end = data.coords;
   });
 
     // Send the data using post
 
  
-  $.getJSON( "ajax/test.json","./api/index.php?start="+start+"&end="+end, function( data ) {
+  $.getJSON( "./api/index.php?start="+start+"&end="+end, function( data ) {
   // Put the results in a div
   
     let content = ""
