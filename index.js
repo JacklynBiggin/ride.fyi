@@ -1,3 +1,6 @@
+startCoords = "";
+endCoords = "";
+
 $( "#searchButton" ).click(function( event ) {
  
   // Stop form from submitting normally
@@ -8,17 +11,17 @@ $( "#searchButton" ).click(function( event ) {
 
   
   $.getJSON( "./api/validate.php/?query="+start, function( data ) {
-    start = data.coords;
+    startCoords = data.coords;
   });
 
   $.getJSON( "./api/validate.php/?query="+end, function( data ) {
-    end = data.coords;
+    endCoords = data.coords;
   });
 
     // Send the data using post
 
  
-  $.getJSON( "./api/index.php?start="+start+"&end="+end, function( data ) {
+  $.getJSON( "./api/index.php?start="+startCoords+"&end="+endCoords, function( data ) {
   // Put the results in a div
   
     let content = ""
