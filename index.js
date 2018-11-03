@@ -22,7 +22,7 @@ $( "#searchForm" ).submit(function( event ) {
   });
 
     // Send the data using post
-  var posting = $.post( url, {"start": start, "end": end} );
+  var posting = $.post ("/api/index.php", {"start": start, "end": end} );
  
   // Put the results in a div
   posting.done(function( data ) {
