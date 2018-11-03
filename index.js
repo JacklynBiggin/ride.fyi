@@ -27,6 +27,7 @@ $( "#searchForm" ).submit(function( event ) {
   // Put the results in a div
   posting.done(function( data ) {
     let content = ""
+    console.log(data);
     for (var key in data) {
         content += "<tr>"
         if (json.hasOwnProperty(key)) {
