@@ -3,8 +3,8 @@ $( "#searchButton" ).click(function( event ) {
   // Stop form from submitting normally
   event.preventDefault();
   // Get some values from elements on the page:
-    let start = encodeURIComponent($("#start").val());
-    let end = encodeURIComponent($("#end").val());
+    var start = encodeURIComponent($("#start").val());
+    var end = encodeURIComponent($("#end").val());
     
 
 
@@ -21,10 +21,10 @@ $( "#searchButton" ).click(function( event ) {
   });
 
     // Send the data using post
-  var posting = $.get("./api/index.php?start="+start+"&end="+end);
+  var getting = $.get("./api/index.php?start="+start+"&end="+end);
  
   // Put the results in a div
-  posting.done(function( data ) {
+  getting.done(function( data ) {
     let content = ""
     console.log(data);
     for (var key in data) {
