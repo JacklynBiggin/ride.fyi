@@ -3,26 +3,24 @@ $( "#searchForm" ).submit(function( event ) {
   // Stop form from submitting normally
   event.preventDefault();
   // Get some values from elements on the page:
-  var $form = $( this ),
-    start = $form.find( "input[name='start']" ).val(),
-    end = $form.find("input[name = 'end'] ").val(),
-    url = $form.attr( "action" );
+    var $form = $( this );
+    let start = encodeURIComponent($form.find("input[name='start']" ).val());
+    let end = encodeURIComponent($form.find("input[name = 'end'] ").val());
+    let url = $form.attr("action");
 
 
-  var gettingStart = $.get("https://geocoder.api.here.com/6.2/geocode.json?app_id=jPeL8FxtgBOBIB9ISZPZ&app_code=mXQv9GX6ULnbMkeJYR2rVQ&searchtext="+start);
+  var gettingStart = $.get(url+"/?query="+start);
   
   gettingStart.done(function(data){
-      start = data.Response.View[0].Result[0].Location.NavigationPostion[0].Latitude;
-      start += ",";
-      start += data.Response.View[0].Result[0].Location.NavigationPostion[0].Longitude;
-    });
-    var gettingEnd =  $.get("https://geocoder.api.here.com/6.2/geocode.json?app_id=jPeL8FxtgBOBIB9ISZPZ&app_code=mXQv9GX6ULnbMkeJYR2rVQ&searchtext="+end);
- 
-    gettingEnd.done(function(data){
-        end = data.Response.View[0].Result[0].Location.NavigationPostion[0].Latitude;
-        end += ",";
-        end += data.Response.View[0].Result[0].Location.NavigationPostion[0].Longitude;
-    }); 
+    start = data.coords;
+  });
+
+  var gettingEnd = $.get(url+"/?query="+end);
+  
+  gettingEnd.done(function(data){
+    end = data.coords;
+  });
+
     // Send the data using post
   var posting = $.post( url, {"start": start, "end": end} );
  
