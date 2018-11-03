@@ -26,6 +26,7 @@ $( "#searchButton" ).click(function( event ) {
   // Put the results in a div
   getting.done(function( data ) {
     let content = ""
+    alert("test");
     console.log(data);
     for (var key in data) {
         content += "<tr>"
