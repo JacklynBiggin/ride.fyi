@@ -4,8 +4,8 @@ $( "#searchForm" ).submit(function( event ) {
   event.preventDefault();
   // Get some values from elements on the page:
     var $form = $( this );
-    let start = encodeURIComponent($form.find("input[name='start']" ).val());
-    let end = encodeURIComponent($form.find("input[name = 'end'] ").val());
+    let start = encodeURIComponent($form.find("input[id='start']" ).val());
+    let end = encodeURIComponent($form.find("input[id='end'] ").val());
     let url = $form.attr("action");
 
 
