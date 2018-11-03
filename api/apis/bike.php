@@ -9,4 +9,4 @@ curl_close($ch);
 $bikeApiReturn = json_decode($bikeApiReturn, true);
 
 $bikeDistance = round(0.000621371 * $bikeApiReturn['response']['route'][0]['summary']['distance'], 2);
-array_push($results, array('currency' => false, 'name' => 'Bike', 'distance' => $bikeDistance, 'time' => $bikeApiReturn['response']['route'][0]['summary']['baseTime']));
+array_push($results, array('currency' => false, 'price' => 0, 'name' => 'Bike', 'distance' => $bikeDistance, 'time' => $bikeApiReturn['response']['route'][0]['summary']['baseTime']));

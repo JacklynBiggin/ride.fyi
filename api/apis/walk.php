@@ -9,4 +9,4 @@ curl_close($ch);
 $walkApiReturn = json_decode($walkApiReturn, true);
 
 $walkDistance = round(0.000621371 * $walkApiReturn['response']['route'][0]['summary']['distance'], 2);
-array_push($results, array('currency' => false, 'name' => 'Walking', 'distance' => $walkDistance, 'time' => $walkApiReturn['response']['route'][0]['summary']['baseTime']));
+array_push($results, array('currency' => false, 'price' => 0, 'name' => 'Walking', 'distance' => $walkDistance, 'time' => $walkApiReturn['response']['route'][0]['summary']['baseTime']));

@@ -18,6 +18,6 @@ foreach($uberApiReturn['prices'] as $transport) {
   $transportPrice = $transport['high_estimate'] + $transport['low_estimate'] / 2;
 
   if($transportPrice !== 0) { // If a service isn't available, Uber says the price is 0
-    array_push($results, array('name' => $transportName, 'distance' => $transport['distance'], 'currency' => $transport['currency_code'], 'price' => $transportPrice));
+    array_push($results, array('name' => $transportName, 'distance' => $transport['distance'], 'currency' => $transport['currency_code'], 'price' => $transportPrice, 'time' => $transport['duration']));
   }
 }

@@ -12,6 +12,9 @@ if(
   exit;
 }
 // http://10.67.173.53/vandyhacks5/api/index.php?start=37.7763,-122.3918&end=37.7972,-122.4533
+
+//local access: http://10.67.173.53/vandyhacks5/api/apis/bird.php?start=36.143036,-86.805698&end=36.165701,-86.784200
+
 $startPoint = htmlspecialchars($_GET['start']);
 $endPoint = htmlspecialchars($_GET['end']);
 
@@ -23,7 +26,12 @@ require_once './apis/lyft.php';
 require_once './apis/bike.php';
 require_once './apis/walk.php';
 require_once './apis/car.php';
-// require_once './apis/bird.php';
+//require_once './apis/bird.php';
+
+// Now lets sort there results - isn't that wonderful?
+array_multisort(array_column($results, 'price'), SORT_ASC,
+                array_column($results, 'time'), SORT_ASC,
+$results);
 
 header('Content-Type: application/json');
 echo json_encode($results);
