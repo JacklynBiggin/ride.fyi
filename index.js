@@ -12,11 +12,11 @@ $( "#searchButton" ).click(function( event ) {
   
   $.getJSON( "./api/validate.php/?query="+start, ( data ) => {
    
-  }).done(function(){
+  }).done(function(data){
     startCoords = data.coords;
     $.getJSON( "./api/validate.php/?query="+end, ( data ) => {
       endCoords = data.coords;
-    }).done(function(){
+    }).done(function(data){
       
     });
     $.getJSON( "./api/index.php?start="+startCoords+"&end="+endCoords, function( data ) {
