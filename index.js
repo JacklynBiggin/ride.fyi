@@ -1,21 +1,20 @@
-$( "#searchForm" ).submit(function( event ) {
+$( "#searchButton" ).click(function( event ) {
  
   // Stop form from submitting normally
   event.preventDefault();
   // Get some values from elements on the page:
-    var $form = $( this );
-    let start = encodeURIComponent($form.find("input[id='start']" ).val());
-    let end = encodeURIComponent($form.find("input[id='end'] ").val());
-    let url = $form.attr("action");
+    let start = encodeURIComponent(("#start").val());
+    let end = encodeURIComponent(("#end").val());
+    
 
 
-  var gettingStart = $.get(url+"/?query="+start);
+  var gettingStart = $.get("/api/validate.php/?query="+start);
   
   gettingStart.done(function(data){
     start = data.coords;
   });
 
-  var gettingEnd = $.get(url+"/?query="+end);
+  var gettingEnd = $.get("/api/validate.php/?query="+end);
   
   gettingEnd.done(function(data){
     end = data.coords;
