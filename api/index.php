@@ -20,6 +20,7 @@ $results = [];
 
 require_once './apis/uber.php';
 require_once './apis/lyft.php';
+require_once './apis/bike.php';
 
 header('Content-Type: application/json');
 echo json_encode($results);
