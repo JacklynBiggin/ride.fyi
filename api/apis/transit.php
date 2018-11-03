@@ -17,22 +17,50 @@ if(strpos($transitResult, 'ApplicationError')) {
 }
 
 $transitResult = json_decode($transitResult, true)['Res']['Connections']['Connection'];
-print_r($transitResult);
 foreach ($transitResult as $pathOption) {
   $startTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Dep']['time']);
   $endTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Arr']['time']);
   $tripTime = abs($startTime->getTimestamp()-$endTime->getTimestamp());
   $currentPath = $pathOption['Sections']['Sec'];
+  $name;
+  $totalDistanceAcrossPaths = 0;
   foreach ($currentPath as $section) {
-
-    // if (isset($section['Dep']['Stn']) and isset($section['Dep']['Stn'])) {
-    //
-    // } else {
-    //
-    // }
-    //Might need for loop to add up fares
+    if (isset($section['Dep']['Stn']) and isset($section['Arr']['Stn'])) {
+      $name = $section['Dep']['Stn']['name'].' to '.$section['Arr']['Stn']['name']; //Bases name off last path
+    }
+    $totalDistanceAcrossPaths += calcStopsIfExists($section['Journey']);
   }
 
-  array_push($results, array('name' => 'Transit Route', 'distance' => 'null', 'currency' => $pathOption['Tariff']['Fares']['0']['Fare']['0']['currency'],
-    'price' => $pathOption['Tariff']['Fares']['0']['Fare']['0']['price'], 'time' => $tripTime));
+  array_push($results, array('name' => 'Transit Route' . (isset($name) ? ' for '.$name : ''), 'distance' => $totalDistanceAcrossPaths, 'currency' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['currency']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['currency'] : 'Unavailable',
+    'price' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['price']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['price'] : 'Unavailable', 'time' => $tripTime));
+}
+print_r($results);
+
+function getDistance($lat1, $lon1, $lat2, $lon2) {
+  $theta = $lon1 - $lon2;
+  $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+  $dist = acos($dist);
+  $dist = rad2deg($dist);
+  $miles = $dist * 60 * 1.1515;
+  return $miles;
+
+}
+
+function calcStopsIfExists($journeyArray){
+  if(isset($journeyArray['distance'])) {
+    return metersToMiles($journeyArray['distance']);
+  } elseif (isset($journeyArray['Stop'])) {
+    $totalDistance = 0;
+    $prev = $journeyArray['Stop'][0];
+    $journeyArray['Stop'] = array_slice($journeyArray['Stop'], 1);
+    foreach ($journeyArray['Stop'] as $stop) {
+      $totalDistance += getDistance($prev['Stn']['y'], $prev['Stn']['x'], $stop['Stn']['y'], $stop['Stn']['x']);
+      $prev = $stop;
+    }
+    return $totalDistance;
+  }
+  return "error with stop calc";
+}
+function metersToMiles($meters){
+  return 0.000621371 * $meters;
 }
