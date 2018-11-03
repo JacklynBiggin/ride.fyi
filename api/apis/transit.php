@@ -1,38 +1,51 @@
 <?php
-$time = urlencode(date('Y-m-d').'T'.date('H:i:s'));
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "https://transit.api.here.com/v3/route.json?app_id=" . $config['HERE_APP_ID'] . "&app_code=" . $config['HERE_APP_CODE'] . "&routing=all&dep=" . $startPoint . "&arr=" . $endPoint . "&time=".$time);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-$transitResult = curl_exec($ch);
-curl_close($ch);
+function getAllTransits($startPoint, $endPoint, $hybridStage, $timestamp) {
+  global $config;
+  if (empty($timestamp)) {
+    $time = urlencode(date('Y-m-d').'T'.date('H:i:s'));
+  } else {
+    $time = urlencode(date('Y-m-d', $timestamp).'T'.date('H:i:s', $timestamp));
+  }
 
-if(strpos($transitResult, 'ApplicationError')) {
-  return;
-}
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, "https://transit.api.here.com/v3/route.json?app_id=" . $config['HERE_APP_ID'] . "&app_code=" . $config['HERE_APP_CODE'] . "&routing=all&dep=" . $startPoint . "&arr=" . $endPoint . "&time=".$time);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+  $transitResult = curl_exec($ch);
+  curl_close($ch);
 
-$transitResult = json_decode($transitResult, true)['Res']['Connections']['Connection'];
-foreach ($transitResult as $pathOption) {
-  // require 'hybrid.php';
-  $startTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Dep']['time']);
-  $endTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Arr']['time']);
-  $tripTime = abs($startTime->getTimestamp()-$endTime->getTimestamp());
-  $currentPath = $pathOption['Sections']['Sec'];
-  $name;
-  $totalDistanceAcrossPaths = 0;
-  foreach ($currentPath as $section) {
-    if (isset($section['Dep']['Stn']) and isset($section['Arr']['Stn'])) {
-      $name = $section['Dep']['Stn']['name'].' to '.$section['Arr']['Stn']['name']; //Bases name off last path
+  if(strpos($transitResult, 'ApplicationError')) {
+    return;
+  }
+
+  $transitResult = json_decode($transitResult, true)['Res']['Connections']['Connection'];
+  $allResults = [];
+  foreach ($transitResult as $pathOption) {
+    $startTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Dep']['time']);
+    $endTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Arr']['time']);
+    $tripTime = abs($startTime->getTimestamp()-$endTime->getTimestamp());
+    $currentPath = $pathOption['Sections']['Sec'];
+    $name;
+    $totalDistanceAcrossPaths = 0;
+    foreach ($currentPath as $section) {
+      if (isset($section['Dep']['Stn']) and isset($section['Arr']['Stn'])) {
+        $name = $section['Dep']['Stn']['name'].' to '.$section['Arr']['Stn']['name']; //Bases name off last path
+      }
+      $totalDistanceAcrossPaths += calcStopsIfExists($section['Journey']);
     }
-    $totalDistanceAcrossPaths += calcStopsIfExists($section['Journey']);
+    $totalDistanceAcrossPaths = round($totalDistanceAcrossPaths, 2);
+    $resultsAppend = array('name' => 'Transit Route' . (isset($name) ? ' for '.$name : ''), 'distance' => $totalDistanceAcrossPaths, 'currency' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['currency']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['currency'] : 'USD',
+      'price' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['price']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['price'] : '0', 'time' => $tripTime);
+    if(empty($pathOption['Tariff']['Fares']['0']['Fare']['0']['price'])){
+      $resultsAppend['prices_unavailable'] = 'true';
+    }
+    if($hybridStage == 0) {
+      $hybrids = getAllHybrids($startPoint, $endPoint, $pathOption);
+    //  var_dump($hybrids);
+      $allResults = array_merge($allResults, $hybrids);
+    }
+    $allResults[] = $resultsAppend;
   }
-  $totalDistanceAcrossPaths = round($totalDistanceAcrossPaths, 2);
-  $resultsAppend = array('name' => 'Transit Route' . (isset($name) ? ' for '.$name : ''), 'distance' => $totalDistanceAcrossPaths, 'currency' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['currency']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['currency'] : 'USD',
-    'price' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['price']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['price'] : '0', 'time' => $tripTime);
-  if(empty($pathOption['Tariff']['Fares']['0']['Fare']['0']['price'])){
-    $resultsAppend['prices_unavailable'] = 'true';
-  }
-  // require 'hybrid.php';
-  array_push($results, $resultsAppend);
+  return $allResults;
 }
 
 function getDistance($lat1, $lon1, $lat2, $lon2) {
@@ -44,7 +57,6 @@ function getDistance($lat1, $lon1, $lat2, $lon2) {
   return $miles;
 
 }
-
 function calcStopsIfExists($journeyArray){
   if(isset($journeyArray['distance'])) {
     return metersToMiles($journeyArray['distance']);
