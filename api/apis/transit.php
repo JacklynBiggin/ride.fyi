@@ -1,10 +1,4 @@
 <?php
-$config['HERE_APP_ID'] = 'jPeL8FxtgBOBIB9ISZPZ';
-$config['HERE_APP_CODE'] = 'mXQv9GX6ULnbMkeJYR2rVQ';
-$results = [];
-
-$startPoint = htmlspecialchars($_GET['start']);
-$endPoint = htmlspecialchars($_GET['end']);
 $time = urlencode(date('Y-m-d').'T'.date('H:i:s'));
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, "https://transit.api.here.com/v3/route.json?app_id=" . $config['HERE_APP_ID'] . "&app_code=" . $config['HERE_APP_CODE'] . "&routing=all&dep=" . $startPoint . "&arr=" . $endPoint . "&time=".$time);
@@ -30,11 +24,14 @@ foreach ($transitResult as $pathOption) {
     }
     $totalDistanceAcrossPaths += calcStopsIfExists($section['Journey']);
   }
-
-  array_push($results, array('name' => 'Transit Route' . (isset($name) ? ' for '.$name : ''), 'distance' => $totalDistanceAcrossPaths, 'currency' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['currency']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['currency'] : 'Unavailable',
-    'price' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['price']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['price'] : 'Unavailable', 'time' => $tripTime));
+  $totalDistanceAcrossPaths = round($totalDistanceAcrossPaths, 2);
+  $resultsAppend = array('name' => 'Transit Route' . (isset($name) ? ' for '.$name : ''), 'distance' => $totalDistanceAcrossPaths, 'currency' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['currency']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['currency'] : 'USD',
+    'price' => isset($pathOption['Tariff']['Fares']['0']['Fare']['0']['price']) ? $pathOption['Tariff']['Fares']['0']['Fare']['0']['price'] : '0', 'time' => $tripTime);
+  if(empty($pathOption['Tariff']['Fares']['0']['Fare']['0']['price'])){
+    $resultsAppend['prices_unavailable'] = 'true';
+  }
+  array_push($results, $resultsAppend);
 }
-print_r($results);
 
 function getDistance($lat1, $lon1, $lat2, $lon2) {
   $theta = $lon1 - $lon2;

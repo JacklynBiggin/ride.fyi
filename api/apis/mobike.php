@@ -9,7 +9,7 @@ curl_setopt($ch,CURLOPT_HTTPHEADER, array('content-type: application/x-www-form-
 $mobikeResults = curl_exec($ch);
 curl_close($ch);
 
-if(strpos($mobikeResults, '当前区域未开通')) {
+if(strpos($mobikeResults, '当前区域未开通') || strpos($mobikeResults, 'object":[],')) {
   return;
 }
 

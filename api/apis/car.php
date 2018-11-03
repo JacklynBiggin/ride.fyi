@@ -28,24 +28,37 @@ if(empty($carPetrolPricing)) {
   exit;
 }
 
+$petrolPricesAvailable = true;
+if(strpos($carPetrolPricing, 'description":"none')) {
+  $petrolPricesAvailable = false;
+}
+
 $carPetrolPricing = json_decode($carPetrolPricing, true);
+
 $petrolPrice = "";
 
-$i = 0;
-while($i <= sizeof($carPetrolPricing['stations'])) {
-  if($petrolPrice == "") {
-    if($carPetrolPricing['stations'][$i]['reg_price'] !== 'N/A') {
-      $petrolPrice = $carPetrolPricing['stations'][$i]['reg_price'];
-    }
-  }
 
-  $i++;
+if($petrolPricesAvailable) {
+  $i = 0;
+  while($i <= sizeof($carPetrolPricing['stations'])) {
+    if($petrolPrice == "") {
+      if($carPetrolPricing['stations'][$i]['reg_price'] !== 'N/A') {
+        $petrolPrice = $carPetrolPricing['stations'][$i]['reg_price'];
+      }
+    }
+
+    $i++;
+  }
 }
 
 // Exit gracefully if there's STILL no petrol prices
-if($petrolPrice == "") {
+if($petrolPrice == "" && $petrolPricesAvailable) {
   exit;
 }
 
 $carDistance = round(0.000621371 * $carApiReturn['response']['route'][0]['summary']['distance'], 2);
-array_push($results, array('currency' => "USD", 'price' => $petrolPrice, 'name' => 'Car', 'distance' => $carDistance, 'time' => $carApiReturn['response']['route'][0]['summary']['baseTime']));
+if($petrolPricesAvailable) {
+  array_push($results, array('currency' => "USD", 'price' => $petrolPrice, 'name' => 'Car', 'distance' => $carDistance, 'time' => $carApiReturn['response']['route'][0]['summary']['baseTime']));
+} else {
+  array_push($results, array('prices_unavailable' => true, 'currency' => "USD", 'price' => '0', 'name' => 'Car', 'distance' => $carDistance, 'time' => $carApiReturn['response']['route'][0]['summary']['baseTime']));
+}
