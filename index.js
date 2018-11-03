@@ -3,8 +3,8 @@ $( "#searchButton" ).click(function( event ) {
   // Stop form from submitting normally
   event.preventDefault();
   // Get some values from elements on the page:
-    let start = encodeURIComponent(("#start").val());
-    let end = encodeURIComponent(("#end").val());
+    let start = encodeURIComponent($("#start").val());
+    let end = encodeURIComponent($("#end").val());
     
 
 
