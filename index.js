@@ -10,11 +10,11 @@ $( "#searchButton" ).click(function( event ) {
     var end = encodeURIComponent($("#end").val());
 
   
-  $.getJSON( "./api/validate.php/?query="+start, ( data ) => {
+  $.getJSON( "./api/validate.php/?query="+start, function( data ) {
     startCoords = data.coords;
   });
 
-  $.getJSON( "./api/validate.php/?query="+end, ( data ) => {
+  $.getJSON( "./api/validate.php/?query="+end, function( data ) {
     endCoords = data.coords;
   });
 
