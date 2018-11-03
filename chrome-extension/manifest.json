@@ -1,0 +1,17 @@
+{
+  "name": "Ride.fyi",
+  "version": "1.0",
+  "description": "VandyHacks5 Entry!",
+  "manifest_version": 2,
+  "permissions": [
+      "contextMenus",
+      "tabs",
+      "http://ride.fyi/",
+      "http://10.67.173.53/"
+
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": true
+  }
+}
