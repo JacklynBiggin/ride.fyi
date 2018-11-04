@@ -40,7 +40,6 @@ function getAllTransits($startPoint, $endPoint, $hybridStage, $timestamp) {
     }
     if($hybridStage == 0) {
       $hybrids = getAllHybrids($startPoint, $endPoint, $pathOption);
-    //  var_dump($hybrids);
       $allResults = array_merge($allResults, $hybrids);
     }
     $allResults[] = $resultsAppend;
