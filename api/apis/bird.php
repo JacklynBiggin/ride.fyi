@@ -15,6 +15,7 @@ function getBird($startPoint, $endPoint) {
   //Currently generates new "email" for each request - should change to keep key in session and only refetch when expires
   $birdResults = curl_exec($ch);
   curl_close($ch);
+
   $birdResultsAccessID = json_decode($birdResults, true)['token'];
 
   //Uses token to find locations of nearby birds

@@ -10,7 +10,7 @@ function getAllLyfts($startPoint, $endPoint) {
   curl_close($ch);
 
   if(strpos($lyftReturn, 'error_description')) {
-    return;
+    return [null];
   }
 
   $lyftReturn = json_decode($lyftReturn, true);

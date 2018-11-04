@@ -1,0 +1,71 @@
+.card {
+  margin-bottom: 1em;
+}
+
+.background-Bike {
+  background-image: url('../img/background-bike.png');
+  background-size: cover;
+}
+
+.background-Car {
+  background-image: url('../img/background-car.png');
+  background-size: cover;
+}
+
+.background-Walking {
+  background-image: url('../img/background-walk.png');
+  background-size: cover;
+  background-position: center;
+}
+
+
+.background-Transit {
+  background-image: url('../img/background-transit.png');
+  background-size: cover;
+}
+
+.background-Lyft {
+  background-image: url('../img/background-lyft.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.background-Uber {
+  background-image: url('../img/background-uber.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.price-free {
+  background-color: #C7DFBC;
+  margin: 0.2em;
+  padding: 0.2em;
+  font-weight: bold;
+  color: white;
+}
+
+.price-unavailable {
+  background-color: #BF463B;
+  margin: 0.2em;
+  padding: 0.2em;
+  font-weight: bold;
+  color: white;
+}
+
+.price-paid {
+  background-color: #8B8DA6;
+  margin: 0.2em;
+  padding: 0.2em;
+  color: #ececec;
+  font-weight: bold;
+}
+
+.transport-name {
+  line-height: 1.5;
+  background-color: #1a1a1a;
+  margin: 0.2em;
+  margin-right: 0;
+  padding: 0.2em 0.3em;
+  color: white;
+  margin-right: 0;
+}

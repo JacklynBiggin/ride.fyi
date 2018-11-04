@@ -13,12 +13,13 @@ function getAllTransits($startPoint, $endPoint, $hybridStage, $timestamp) {
   $transitResult = curl_exec($ch);
   curl_close($ch);
 
-  if(strpos($transitResult, 'ApplicationError')) {
-    return;
+  if(strpos($transitResult, 'ApplicationError') || strpos($transitResult, '"text":"Out of coverage"')) {
+    return [null];
   }
 
   $transitResult = json_decode($transitResult, true)['Res']['Connections']['Connection'];
   $allResults = [];
+  $nonBestHybridResults = [];
   foreach ($transitResult as $pathOption) {
     $startTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Dep']['time']);
     $endTime = date_create_from_format('Y-m-d\TH:i:s', $pathOption['Arr']['time']);
@@ -40,9 +41,15 @@ function getAllTransits($startPoint, $endPoint, $hybridStage, $timestamp) {
     }
     if($hybridStage == 0) {
       $hybrids = getAllHybrids($startPoint, $endPoint, $pathOption);
-      $allResults = array_merge($allResults, $hybrids);
+      if(!empty($hybrids)){
+        $nonBestHybridResults = array_merge($nonBestHybridResults, $hybrids);
+      }
     }
     $allResults[] = $resultsAppend;
+  }
+  if(!empty($nonBestHybridResults)){
+    $allResults = array_merge(bestHybrid($nonBestHybridResults), $allResults);
+    return $allResults;
   }
   return $allResults;
 }

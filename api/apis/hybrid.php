@@ -21,13 +21,15 @@ function getAllHybrids($startPoint, $endPoint, $pathOption) {
         $subResults = array_merge($subResults, getAllUbers($newStart, $newEnd));
         $subResults = array_filter($subResults); //Removes null results
         foreach ($subResults as $subResult) {
-          if (preg_match('/(Black)(Select)(Lux)/',$subResult['name'])) {
-            continue;
-          }
-          $newTransitOptions = getAllTransits($startPoint, $endPoint, 1, time()+$subResult['time']);
-          foreach ($newTransitOptions as $newTransitOption) {
-            $current
-            $hybridResults[] = array('time' => $newTransitOption['time'] + $subResult['time'], 'name' => $subResult['name'].' with '.$newTransitOption['name']);
+          if ($subResult['name'] == 'Uber UberX' or $subResult['name'] == 'Lyft') {
+            $newTransitOptions = getAllTransits($newEnd, $endPoint, 1, time()+$subResult['time']);
+            foreach ($newTransitOptions as $newTransitOption) {
+              $collectiveTime = $newTransitOption['time'] + $subResult['time'];
+              $collectiveName = $subResult['name'].' with '.$newTransitOption['name'];
+              $collectivePrice = $subResult['price'] + 2; //+ $newTransitOption['price'] //Adding two for transit cost
+              $collectiveDistance = $subResult['distance'] + $newTransitOption['distance'];
+              $hybridResults[] = array('currency' => $subResult['currency'],'time' => round($collectiveTime, 2), 'name' => $collectiveName, 'price' => round($collectivePrice, 2), 'distance' => round($collectiveDistance, 2));
+            }
           }
         }
         return $hybridResults;
@@ -47,6 +49,30 @@ function getAllHybrids($startPoint, $endPoint, $pathOption) {
 
     }
     // $reversedPathOption = array_reverse($pathOption, true);
+  }
+}
+function bestHybrid($hybridResults) {
+  $minTime = 100000; $minCost = 100000; $minTimeResult; $minCostResult;
+  foreach ($hybridResults as $result) {
+    if($result['time'] < $minTime) {
+      $minTimeResult = $result;
+      $minTime = $result['time'];
+    }
+    if($result['price'] < $minCost) {
+      $minCostResult = $result;
+      $minTime  = $result['price'];
+    }
+  }
+  if ($minCostResult === $minTimeResult) {
+    $results = [];
+    $results[] = $minCostResult;
+    return $results;
+  } else {
+    $results = [];
+    $results[] = $minCostResult;
+    $results[] = $minTimeResult;
+    return $results;
+    //Could check too see if seconds apart and not worth the comaprison, but too much work
   }
 }
 //only run if transfers > 1 and count of Sec > 4

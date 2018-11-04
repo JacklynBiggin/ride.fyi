@@ -39,7 +39,7 @@ array_push($results, getBike($startPoint, $endPoint));
 array_push($results, getCar($startPoint, $endPoint));
 $results = array_merge($results, getAllLyfts($startPoint, $endPoint));
 $results = array_merge($results, getAllUbers($startPoint, $endPoint));
-$results = array_merge($results, getAllTransits($startPoint, $endPoint, 0, null));
+$results = array_merge($results, getAllTransits($startPoint, $endPoint, 0, null)); //Includes hybrids
 
 $results = array_filter($results); //Removes null results
 // Now lets sort there results - isn't that wonderful?
