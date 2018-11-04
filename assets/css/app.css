@@ -18,6 +18,11 @@
   background-position: center;
 }
 
+.background-Hybrid {
+  background-image: url('../img/background-hybrid.png');
+  background-size: cover;
+  background-position: center;
+}
 
 .background-Transit {
   background-image: url('../img/background-transit.png');

@@ -42,6 +42,10 @@ $( "#searchButton" ).click(function( event ) {
                 travelType = "Transit";
               }
 
+              if (data[key].name.includes("with")) {
+                travelType = "Hybrid";
+              }
+
               switch(data[key].currency) {
                 case "CAD":
                   currencySymbol = "C$";
