@@ -1,24 +1,3 @@
-window.onload = function() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const myParam = urlParams.get('myParam');
-  var isset = getParameterByName('go');
-  if(isset != ""){
-    endPlaceholder = document.getElementById('end');
-    endPlaceholder.setAttribute("placeholder", isset); 
-  }
-  return;
-};
-
-function getParameterByName(name, url) {
-  if (!url) url = window.location.href;
-  name = name.replace(/[\[\]]/g, '\\$&');
-  var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-      results = regex.exec(url);
-  if (!results) return null;
-  if (!results[2]) return '';
-  return decodeURIComponent(results[2].replace(/\+/g, ' '));
-}
-
 let startCoords = "";
 let endCoords = "";
 
@@ -94,18 +73,18 @@ $( "#searchButton" ).click(function( event ) {
                  if(!currency){
                   content += "<h5 id = '" +name+"' class = 'card-title'><span class='transport-name'>"+name + "</span> ";
                   content += "<span class = 'price price-free'>FREE</span></h5>";
-                  content += "<p><i class = 'far fa-clock'></i>"+timeInMin+" minutes "+ seconds + " seconds</p>"
+                  content += "<p><i class = 'far fa-clock'></i> "+timeInMin+" minutes</p>"
                   content += "<p><i class = 'fas fa-map-marked-alt'></i>"+distance+" miles</p>"
                  }
-                } else {
                  else if (data[key].prices_unavailable) {
                   content += "<h5 id = '" +name+"' class = 'card-title'><span class='transport-name'>"+name + "</span> ";
                   content += " <span class = 'price price-unavailable' id='" + currency + "'>?</span></h5>";
+                  content += "<p><i class = 'far fa-clock'></i> "+timeInMin+" minutes</p>"
                   content += "<p><i class = 'fas fa-map-marked-alt'></i> "+distance+" miles</p>"
-                  content += "<p><i class = 'far fa-clock'></i> "+timeInMin+" minutes</p>"
-                  content += "<p><i class = 'far fa-clock'></i> "+timeInMin+" minutes</p>"
+                } else {
                   content += "<h5 id = '" +name+"' class = 'card-title'><span class='transport-name'>"+name + "</span> ";
                   content += " <span class = 'price price-paid' id='" + currency + "'>"+ currencySymbol +price+"</span></h5>";
+                  content += "<p><i class = 'far fa-clock'></i> "+timeInMin+" minutes</p>"
                   content += "<p><i class = 'fas fa-map-marked-alt'></i> "+distance+" miles</p>"
                 }
               }
