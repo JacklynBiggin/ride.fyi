@@ -25,33 +25,30 @@ $( "#searchButton" ).click(function( event ) {
           alert("test");
           console.log(data);
           for (var key in data) {
-              content += "<div class='row align-items-start'>"
+              content += "<div class='col-12 col-md-6'><div class='card'><div class ='card-body'>"
               if (data.hasOwnProperty(key)) {
                  let name = data[key].name;
                  let currency = data[key].currency;
                  let price = data[key].price;
                  let distance = data[key].distance;
                  let time = data[key].time;
-                 let timeInMin = Number(time)/60;
+                 let timeInMin = Math.floor(Number(time)/60);
+                 let seconds = Number(time)%60;
                  
                  if(!currency){
-                  content += "<div id = '" +name+"' class = 'col'>"+name+"</div>";
-                  content += "<div id = '" +price+"' class = 'col'><p id='"+currency +"'>Free</p></div>";
-                  content += "<div class = 'col'>"+distance+" miles</div>"
-                  content += "<div class = 'col'>"+timeInMin+" minutes</div>"
+                  content += "<h5 id = '" +name+"' class = 'card-title'>"+name;
+                  content += "<span class = 'price'>Free</span></h5>";
+                  content += "<p><i class = 'far fa-clock'></i>"+timeInMin+" minutes "+ seconds + " seconds</p>"
+                  content += "<p><i class = 'fas fa-map-marked-alt'></i>"+distance+" miles</p>"
                  }
                  else{
-                      // $("<td id = '" +name+"'>"+name+"</td>").appendTo("#result");
-                      // $("<td id = '" +price+"'><p id='"+currency +"'>"+price+"</td>").appendTo("#result");
-                      // $("<td>"+distance+" miles</td>").appendTo("#result");
-                      // $("<td>"+timeInMin+" minutes</td>").appendTo("#result");
-                      content += "<div id = '" +name+"' class = 'col'>"+name+"</div>";
-                      content += "<div id = '" +price+"' class = 'col'><p id='"+currency +"'>"+price+"</p></div>";
-                      content += "<div class = 'col'>"+distance+" miles</div>"
-                      content += "<div class = 'col'>"+timeInMin+" minutes</div>"
+                  content += "<h5 id = '" +name+"' class = 'card-title'>"+name;
+                  content += "<span class = 'price' id='"+currency+"'>"+price+"</span></h5>";
+                  content += "<p><i class = 'far fa-clock'></i>"+timeInMin+" minutes "+ seconds + " seconds</p>"
+                  content += "<p><i class = 'fas fa-map-marked-alt'></i>"+distance+" miles</p>"
                   }
               }
-              content += "</div>"
+              content += "</div></div></div>"
            }
            $("#result").empty().append(content);
         });
