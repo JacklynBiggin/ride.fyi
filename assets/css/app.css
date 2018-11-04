@@ -16,6 +16,11 @@ body {
   border: 1px solid #7dc4e8;
 }
 
+.card-body p {
+  color: white;
+  text-shadow: 0px 1px 5px #000000
+}
+
 .background-Bike {
   background-image: url('../img/background-bike.png');
   background-size: cover;
@@ -51,6 +56,12 @@ body {
 
 .background-Uber {
   background-image: url('../img/background-uber.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.background-Scooter {
+  background-image: url('../img/background-scooter.png');
   background-size: cover;
   background-position: center;
 }

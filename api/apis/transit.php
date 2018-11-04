@@ -49,18 +49,20 @@ function getAllTransits($startPoint, $endPoint, $hybridStage, $timestamp) {
     $allResults[] = $resultsAppend;
   }
   if (!empty($allResults)) {
+    $StartPoint = explode(",", $startPoint);
+    $EndPoint = explode(",", $endPoint);
     $databaseSQL = mysqli_connect (DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     if (!$databaseSQL) { //Triggered if databaseSQL is null and shows error
       trigger_error('Could not connect to MySQL: '.mysqli_connect_error());
     }
-    $create_appt = mysqli_prepare($databaseSQL, "INSERT INTO requests (UnixTimestamp, latlong, latlongend, ratio) VALUES (?,?,?,?);");
+    $create_appt = mysqli_prepare($databaseSQL, "INSERT INTO requests (UnixTimestamp, lat, lon, latend, lonend, ratio) VALUES (?,?,?,?,?,?);");
     $ratio = 0.0;
-    mysqli_stmt_bind_param($create_appt, 'issd', $timestamp, $startPoint, $endPoint, $ratio);
+    mysqli_stmt_bind_param($create_appt, 'iddddd', $timestamp, $StartPoint[0], $StartPoint[1], $EndPoint[0], $EndPoint[1], $ratio);
     foreach ($allResults as $databaseResult) {
       $ratio = $databaseResult['distance']/$databaseResult['time'];
       if (!mysqli_stmt_execute($create_appt)) {
-        echo '<p>Please try again. An error occured. Your confirmation is invalid.</p>';
-        exit();
+        // echo '<p>Please try again. An error occured. Your confirmation is invalid.</p>';
+        // exit();
       }
     }
     mysqli_stmt_close($create_appt);

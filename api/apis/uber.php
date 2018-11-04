@@ -12,6 +12,11 @@ function getAllUbers($startPoint, $endPoint) {
   $uberApiReturn = curl_exec($ch);
   curl_close($ch);
 
+  if(strpos($uberApiReturn, 'distance_exceeded')) {
+    $results = [];
+    return $results;
+  }
+
   $uberApiReturn = json_decode($uberApiReturn, true);
   $results = [];
   foreach($uberApiReturn['prices'] as $transport) {
