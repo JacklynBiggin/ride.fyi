@@ -2,6 +2,8 @@ let startCoords = "";
 let endCoords = "";
 let startLoc = "";
 let endLoc = "";
+let hasPublicTransit = false;
+let alreadyWarned = false;
 
 $( "#searchButton" ).click(function( event ) {
 
@@ -51,15 +53,17 @@ $( "#searchButton" ).click(function( event ) {
               if (data[key].name.includes("Transit")) {
                 travelType = "Transit";
                 data[key].directions = '<a class="btn btn-primary" href="https://wego.here.com/directions/publicTransport/' + startLoc + '/' + endLoc + '"><i class="fas fa-fw fa-bus"></i> Navigate</a>';
+                hasPublicTransit = true;
               }
 
               if (data[key].name == "Bird" || data[key].name == "Mobike") {
                 travelType = "Scooter";
-                data[key].directions = '<a disabled class="btn btn-primary" href="#"><i class="fas fa-fw fa-lock"></i> Unavailable</a>'
+                data[key].directions = '<a disabled class="btn disabled btn-primary" href="#"><i class="fas fa-fw fa-lock"></i> Unavailable</a>';
               }
 
               if (data[key].name.includes("with")) {
                 travelType = "Hybrid";
+                data[key].directions = '<a disabled class="btn disabled btn-primary" href="#"><i class="fas fa-fw fa-lock"></i> Unavailable</a>';
               }
 
               switch(data[key].currency) {
@@ -77,6 +81,7 @@ $( "#searchButton" ).click(function( event ) {
                   currencySymbol = "€";
                   break;
               }
+
               content += "<div class='col-12 col-md-6'><div class='card background-" + travelType + "'><div class ='card-body'>";
               if (data.hasOwnProperty(key)) {
                  let name = data[key].name;
@@ -108,8 +113,16 @@ $( "#searchButton" ).click(function( event ) {
                   content += data[key].directions
                 }
               }
+
+
               content += "</div></div></div>"
            }
+
+           if(alreadyWarned == false && hasPublicTransit == false) {
+             content += "<div class='col-12 col-md-6'><div class='card background-alert'><div class='card-body'>It looks like your area doesn't have reliable public transport. Have you considered <a href='https://callyourrep.co/result/?address=" + startLoc + "'>contacting your local representative?</a></div></div></div>";
+           }
+           alreadyWarned = true;
+
            $("#result").empty().append(content);
         });
     });
@@ -119,6 +132,20 @@ $( "#searchButton" ).click(function( event ) {
 
     });
 
-
-
 });
+
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(queryPosition);
+    } else {
+        alert("Geolocation is not supported by this browser.");
+    }
+
+function queryPosition(location) {
+  $.getJSON('https://reverse.geocoder.api.here.com/6.2/reversegeocode.json?prox=' + location.coords.latitude + ',' + location.coords.longitude + '&mode=retrieveAddresses&maxresults=1&gen=9&app_id=jPeL8FxtgBOBIB9ISZPZ&app_code=mXQv9GX6ULnbMkeJYR2rVQ', (data) => {
+
+  }).done(function(data) {
+    $("#start").val(data['Response']['View'][0]['Result'][0]['Location']['Address']['Label']);
+  })};
+}

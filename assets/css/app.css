@@ -66,6 +66,16 @@ body {
   background-position: center;
 }
 
+.background-alert {
+    background-color: #ef5350;
+    color: #ececec;
+}
+
+.background-alert a {
+  font-weight: bold;
+  color: gold;
+}
+
 .price-free {
   background-color: #C7DFBC;
   margin: 0.2em;

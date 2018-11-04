@@ -1,1 +1,3 @@
 php_value max_execution_time 9001
+php_value error_reporting 2039
+php_flag display_errors off

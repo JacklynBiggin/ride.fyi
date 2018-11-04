@@ -28,6 +28,9 @@
                     <span class="input-group-text">Start from:</span>
                   </div>
                   <input type="text" class="form-control form-control-lg" id="start" placeholder="Enter Location">
+                  <div class="input-group-append">
+                    <span class="input-group-text"><i class="fas fa-fw fa-map-marker-alt" style="cursor:pointer;" onClick=getLocation()></i></span>
+                  </div>
                 </div>
               </div>
           </div>
@@ -36,7 +39,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Go to:</span>
               </div>
-              <input type="text" class="form-control form-control-lg" id="end" placeholder="Enter Location">
+              <input type="text" class="form-control form-control-lg" id="end" placeholder="Enter Location" <?php if(isset($_GET['go'])) { echo 'value="' . htmlspecialchars($_GET['go']) . '"'; } ?>>
             </div>
           </div>
           <div class="col-xs-12 col-md-2">
