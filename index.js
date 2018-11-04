@@ -37,13 +37,13 @@ $( "#searchButton" ).click(function( event ) {
                  
                  if(!currency){
                   content += "<h5 id = '" +name+"' class = 'card-title'>"+name;
-                  content += "<span class = 'price'>Free</span></h5>";
+                  content += "<span class = 'price'> Free </span></h5>";
                   content += "<p><i class = 'far fa-clock'></i>"+timeInMin+" minutes "+ seconds + " seconds</p>"
                   content += "<p><i class = 'fas fa-map-marked-alt'></i>"+distance+" miles</p>"
                  }
                  else{
                   content += "<h5 id = '" +name+"' class = 'card-title'>"+name;
-                  content += "<span class = 'price' id='"+currency+"'>"+price+"</span></h5>";
+                  content += "<span class = 'price' id='"+currency+"'> "+price+" </span></h5>";
                   content += "<p><i class = 'far fa-clock'></i>"+timeInMin+" minutes "+ seconds + " seconds</p>"
                   content += "<p><i class = 'fas fa-map-marked-alt'></i>"+distance+" miles</p>"
                   }
