@@ -21,7 +21,7 @@ function getAllHybrids($startPoint, $endPoint, $pathOption) {
         $subResults = array_merge($subResults, getAllUbers($newStart, $newEnd));
         $subResults = array_filter($subResults); //Removes null results
         foreach ($subResults as $subResult) {
-          if ($subResult['name'] == 'Uber UberX' or $subResult['name'] == 'Lyft') {
+          if ($subResult['name'] == 'Uber UberX' or $subResult['name'] == 'Lyft' or $subResult['name'] == 'Bird') {
             $newTransitOptions = getAllTransits($newEnd, $endPoint, 1, time()+$subResult['time']);
             foreach ($newTransitOptions as $newTransitOption) {
               $collectiveTime = $newTransitOption['time'] + $subResult['time'];
