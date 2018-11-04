@@ -1,5 +1,19 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  background-color: #97d0ed;
+}
+
+.form-control {
+    background-color: #c4e8f3;
+    border: 0;
+}
+
 .card {
   margin-bottom: 1em;
+  border: 1px solid #7dc4e8;
 }
 
 .background-Bike {

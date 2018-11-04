@@ -25,17 +25,30 @@
           <figcaption class="figure-caption text-center">Effective Immediate </figcaption>
         </figure>
 
-
-        <div class="form-group">
-            <label for="start">Current Location</label>
-            <input type="text" class="form-control" id="start" placeholder="Enter Location">
+        <div class="row">
+          <div class="col-xs-12 col-md-5">
+            <div class="form-group">
+                <div for="start" class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Start from:</span>
+                  </div>
+                  <input type="text" class="form-control form-control-lg" id="start" placeholder="Enter Location">
+                </div>
+              </div>
           </div>
-        <div class="form-group">
-            <label for="end">Where are you going?</label>
-            <input type="text" class="form-control" id="end" placeholder="Search Destination">
+          <div class="col-xs-12 col-md-5">
+            <div for="start" class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Go to:</span>
+              </div>
+              <input type="text" class="form-control form-control-lg" id="end" placeholder="Enter Location">
+            </div>
           </div>
-        <button type="submit" class="btn btn-primary" id ="searchButton">Submit</button>
-        <br>
+          <div class="col-xs-12 col-md-2">
+            <button type="submit" class="btn btn-lg btn-primary btn-block" id ="searchButton">Go</button>
+          </div>
+        </div>
+        <br />
           <div id="result" class="row">
 
           </div>
