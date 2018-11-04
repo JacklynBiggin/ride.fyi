@@ -21,7 +21,7 @@ function getAllHybrids($startPoint, $endPoint, $pathOption) {
         $subResults = array_merge($subResults, getAllUbers($newStart, $newEnd));
         $subResults = array_filter($subResults); //Removes null results
         foreach ($subResults as $subResult) {
-          if (preg_match('/(Black)(Select)(Lux)/',$subResult)) {
+          if (preg_match('/(Black)(Select)(Lux)/',$subResult['name'])) {
             continue;
           }
           $newTransitOptions = getAllTransits($startPoint, $endPoint, 1, time()+$subResult['time']);
