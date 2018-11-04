@@ -27,8 +27,7 @@ function getAllHybrids($startPoint, $endPoint, $pathOption) {
           $newTransitOptions = getAllTransits($startPoint, $endPoint, 1, time()+$subResult['time']);
           foreach ($newTransitOptions as $newTransitOption) {
             $current
-            $hybridResults[] = array('time' => $newTransitOption['time'] + $subResult['time'], 'name' => $subResult['name'].' with '.$newTransitOption['name'],
-              );
+            $hybridResults[] = array('time' => $newTransitOption['time'] + $subResult['time'], 'name' => $subResult['name'].' with '.$newTransitOption['name']);
           }
         }
         return $hybridResults;
