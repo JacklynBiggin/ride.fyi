@@ -25,7 +25,7 @@ $( "#searchButton" ).click(function( event ) {
           alert("test");
           console.log(data);
           for (var key in data) {
-              content += "<tr>"
+              content += "<div class='row align-items-start'>"
               if (data.hasOwnProperty(key)) {
                  let name = data[key].name;
                  let currency = data[key].currency;
@@ -35,20 +35,23 @@ $( "#searchButton" ).click(function( event ) {
                  let timeInMin = Number(time)/60;
                  
                  if(!currency){
-      
+                  content += "<div id = '" +name+"' class = 'col'>"+name+"</div>";
+                  content += "<div id = '" +price+"' class = 'col'><p id='"+currency +"'>Free</p></div>";
+                  content += "<div class = 'col'>"+distance+" miles</div>"
+                  content += "<div class = 'col'>"+timeInMin+" minutes</div>"
                  }
                  else{
                       // $("<td id = '" +name+"'>"+name+"</td>").appendTo("#result");
                       // $("<td id = '" +price+"'><p id='"+currency +"'>"+price+"</td>").appendTo("#result");
                       // $("<td>"+distance+" miles</td>").appendTo("#result");
                       // $("<td>"+timeInMin+" minutes</td>").appendTo("#result");
-                      content += "<td id = '" +name+"'>"+name+"</td>";
-                      content += "<td id = '" +price+"'><p id='"+currency +"'>"+price+"</td>";
-                      content += "<td>"+distance+" miles</td>"
-                      content += "<td>"+timeInMin+" minutes</td>"
+                      content += "<div id = '" +name+"' class = 'col'>"+name+"</div>";
+                      content += "<div id = '" +price+"' class = 'col'><p id='"+currency +"'>"+price+"</p></div>";
+                      content += "<div class = 'col'>"+distance+" miles</div>"
+                      content += "<div class = 'col'>"+timeInMin+" minutes</div>"
                   }
               }
-              content += "</tr>"
+              content += "</div>"
            }
            $("#result").empty().append(content);
         });
