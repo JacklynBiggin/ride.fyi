@@ -1,4 +1,6 @@
-# vandyhacks5: Ride.fyi
+> ⚠️ This is a Hackathon entry for VandyHacks 5, and was created in under 36 hours. The code in this repo is likely to be hacky and potentially unstable/insecure, so please be careful if forking this repo. [You can view the project's Devpost page here.](https://devpost.com/software/ride-fyi)
+
+# VandyHacks5 Entry: Ride.fyi
 ## Inspiration
 While tools such as Google Maps are a great way to get from A to B, one thing that they neglect to take into account is the cost of travel. With a 39.7 million people in the US living in poverty, and other groups such as students having incredibly tight budgets, we decided to create a webapp to mitigate this problem. Additionally, new bikeshare providers such as Bird and Lime don’t even appear on Google Maps at all, meaning that some of the most cost effective platforms are hidden from view. Ride.fyi aims to combat this by intelligently find hybrid transit options.
 
